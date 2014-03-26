@@ -11,8 +11,6 @@
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
-	
-	<context:component-scan base-package="org.bitler.mySecond"></context:component-scan>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
@@ -23,8 +21,34 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="org.bitler.controller" />
 	
+	
+	<context:component-scan base-package="org.bitler" />
+	
+
+	
+		  <beans:bean id="dataSource" class="org.h2.jdbcx.JdbcDataSource">
+			<beans:property name="URL" value="jdbc:h2:tcp://localhost/~/test" />
+			<beans:property name="user" value="Bitler" />
+			<beans:property name="password" value="13379958" />
+	 	 </beans:bean>
+
+	      <beans:bean id="connectionPool"  class="org.h2.jdbcx.JdbcConnectionPool" factory-method="create" destroy-method="dispose">
+		    <beans:constructor-arg ref="dataSource"/> 
+		 </beans:bean>
+	 
+		<beans:bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
+		      <beans:property name="dataSource" ref="dataSource" />
+		      <beans:property name="changeLog" value="/WEB-INF/db/db.changelog.xml" />
+		
+		      <!--
+		      contexts specifies the runtime contexts to use.
+		      -->
+		      <beans:property name="contexts" value="test, production" />
+		 </beans:bean>
+		
+	
+
 	
 	
 </beans:beans>
