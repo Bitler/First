@@ -5,35 +5,49 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.bitler.entity.Article;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Repository
 public class ArticleDAO{
 	
 	@Autowired
-	private Connection connection;
+	private SessionFactory sessionFactory;
 	
-	private Statement statement;
+	/*@Autowired
+	private Connection connection;
+	*/
+	/*private Statement statement;
 	
 	private ResultSet rs;
 	
-	private int lastID=0;
+	private int lastID=1;*/
 	
-	public void setConnection(Connection connection) {
+/*	public void setConnection(Connection connection) {
 		this.connection = connection;
 	}
-
-	public ArrayList<Article> getArticle() {
-		String query = "SELECT * FROM Article";
+*/
+	
+	@SuppressWarnings("unchecked")	
+	@Transactional
+	public List<Article> getArticle() {
+		
+		List<Article> article = this.sessionFactory.getCurrentSession().createQuery("from Article").list();
+		
+		return article;
+	}
+/*		String query = "SELECT * FROM Article";
 		
 		Article article=null;
-		ArrayList<Article> result=null;
-		
-		try {
+		ArrayList<Article> result=null;*/
+		/*try {
 			statement = connection.createStatement();
 			rs = statement.executeQuery(query);
 			result = new ArrayList<Article>();
@@ -51,14 +65,15 @@ public class ArticleDAO{
 			lastID=article.getArticleId()+1;
 		}catch (SQLException e){
 			System.out.println("Bad connection");			
-		}
+		}*/
 		
-		return result;	
-	}
+		/*return result;*/	
 	
+	@Transactional
 	public boolean addArticle(Article article){
+			this.sessionFactory.getCurrentSession().save(article);
 		
-		String query = "Insert into Article Values("
+		/*String query = "Insert into Article Values("
 						+lastID+",'"
 						+article.getArticleName()+"',"
 						+article.getArticleBarcode()+")";
@@ -69,13 +84,13 @@ public class ArticleDAO{
 			
 		} catch (SQLException e) {
 			System.out.println("This Article already exist or Illegal barcode");		
-		}
+		}*/
 		
 		return true;
 	}
 	
 	
-	public void close(){
+/*	public void close(){
 		
 		try {
 			if(rs!=null)
@@ -89,10 +104,7 @@ public class ArticleDAO{
 			e.printStackTrace();
 		}
 		
-	}
-	
-	
-	
+	}*/
 	
 	
 }

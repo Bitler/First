@@ -1,11 +1,29 @@
 package org.bitler.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+
+
+@Entity
+@Table(name="Article")
 public class Article {
 	
-	private int articleId;
+	@Id
+	@Column(name="article_id")	
+	@GeneratedValue(strategy =  GenerationType.TABLE)
+	@SequenceGenerator(name = "ROL_SEQ")
+	private Integer articleId;
 	
+	@Column(name="article_name")
 	private String articleName;
 	
+	@Column(name="article_barcode")
 	private int articleBarcode;
 
 	public int getArticleId() {
@@ -37,7 +55,5 @@ public class Article {
 		return "articleName="
 				+ articleName + ", articleBarcode=" + articleBarcode;
 	}
-	
-	
-	
+		
 }

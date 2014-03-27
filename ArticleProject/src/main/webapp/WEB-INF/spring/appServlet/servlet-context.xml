@@ -3,10 +3,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+		
+		
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
@@ -33,10 +36,31 @@
 			<beans:property name="password" value="13379958" />
 	 	 </beans:bean>
 
-	      <beans:bean id="connectionPool"  class="org.h2.jdbcx.JdbcConnectionPool" factory-method="create" destroy-method="dispose">
+	<!--       <beans:bean id="connectionPool"  class="org.h2.jdbcx.JdbcConnectionPool" factory-method="create" destroy-method="dispose">
 		    <beans:constructor-arg ref="dataSource"/> 
-		 </beans:bean>
-	 
+		 </beans:bean> -->
+		 
+	
+    <beans:bean id="sessionFactory"
+        class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <beans:property name="dataSource" ref="dataSource"/>
+        <beans:property name="configLocation">
+            <beans:value>/WEB-INF/db/hibernate.cfg.xml</beans:value>
+        </beans:property>        
+        <beans:property name="hibernateProperties">
+            <beans:props>
+                <beans:prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</beans:prop>
+                <beans:prop key="hibernate.show_sql">true</beans:prop>
+            </beans:props>            
+        </beans:property>
+    </beans:bean>
+ 		
+ 		<tx:annotation-driven/>
+ 		<beans:bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		     <beans:property name="sessionFactory" ref="sessionFactory"/>
+		     <beans:property name="dataSource" ref="dataSource"></beans:property>
+		</beans:bean>
+			 
 		<beans:bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
 		      <beans:property name="dataSource" ref="dataSource" />
 		      <beans:property name="changeLog" value="/WEB-INF/db/db.changelog.xml" />

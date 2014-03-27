@@ -14,7 +14,7 @@ public class ArticleDAOFactory {
 
 	private static ArticleDAOFactory instance = new ArticleDAOFactory();
 	
-	@Autowired
+	/*@Autowired
 	public static @Bean Connection getConnection(JdbcConnectionPool connectionPool){
 		
 		return instance.createConnection(connectionPool);
@@ -39,6 +39,6 @@ public class ArticleDAOFactory {
 			
 		}
 		return connection;
-	}
+	}*/
 	
 }

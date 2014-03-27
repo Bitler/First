@@ -1,6 +1,5 @@
 package org.bitler.start;
 
-import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,8 +26,7 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model model) {		
 		
-		ArrayList<Article> articles = articleDao.getArticle();	
-		model.addAttribute("articles", articles);
+		model.addAttribute("articles", articleDao.getArticle());
 		
 		return "home";
 	}
@@ -42,7 +40,7 @@ public class HomeController {
 			
 			articleDao.addArticle(article);
 			
-		return "redirect:/";  
+		return "redirect:/"; 
 	    }  
 	      
 	  
