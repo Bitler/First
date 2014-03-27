@@ -4,6 +4,6 @@
 		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-       <mapping class="org.bitler.entity.Article"></mapping>
+       <mapping class="org.bitler.entity.Product"></mapping>
     </session-factory>
 </hibernate-configuration>

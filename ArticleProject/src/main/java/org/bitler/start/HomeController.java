@@ -3,8 +3,8 @@ package org.bitler.start;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.bitler.db.ArticleDAO;
-import org.bitler.entity.Article;
+import org.bitler.db.ProductDAO;
+import org.bitler.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class HomeController {
 	
 	@Autowired
-	private ArticleDAO articleDao;
+	private ProductDAO productDao;
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -26,7 +26,7 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model model) {		
 		
-		model.addAttribute("articles", articleDao.getArticle());
+		model.addAttribute("products", productDao.getProduct());
 		
 		return "home";
 	}
@@ -34,11 +34,11 @@ public class HomeController {
 	@RequestMapping(value = "/add", method = RequestMethod.GET)  
 	public String add(HttpServletRequest req) {  
 			
-		Article article= new Article();
-			article.setArticleName(req.getParameter("articleName"));
-			article.setArticleBarcode(Integer.parseInt(req.getParameter("articleBarcode")));					
+		Product product= new Product();
+			product.setProductName(req.getParameter("productName"));
+			product.setProductBarcode(Integer.parseInt(req.getParameter("productBarcode")));					
 			
-			articleDao.addArticle(article);
+			productDao.addProduct(product);
 			
 		return "redirect:/"; 
 	    }  
@@ -47,13 +47,13 @@ public class HomeController {
 	@RequestMapping(value = "/redirect", method = RequestMethod.GET)  
 	public String redirect() {  
 	
-		return "redirect:addArticle";  
+		return "redirect:addProduct";  
 	    }  
 	      
-	 @RequestMapping(value = "/addArticle", method = RequestMethod.GET)  
-	 public String addArticle() {  
+	 @RequestMapping(value = "/addProduct", method = RequestMethod.GET)  
+	 public String addProduct() {  
 	  
-	    	return "addArticle";  
+	    	return "addProduct";  
 	   } 
 	
 }
